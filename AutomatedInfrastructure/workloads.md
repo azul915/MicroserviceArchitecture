@@ -27,10 +27,24 @@ Podを最小単位として、それらを管理する上位リソースがあ�
 * ReplicaSetをスケーリングするには
    * マニフェストを書き換えて、`kubectl apply -f`（Infrastructure as Codeを守る意味で基本的にマニフェストの書き換えで行う）
    * `kubectl scale`でスケーリング処理を行う（Deployment, StatefulSet, Job, CronJob）でも可能
+
 # Deployment
-* 複数のReplicaSetを管理することで、ローリングアップデータやロールバックなどんを実現するリソース
+* 複数のReplicaSetを管理することで、ローリングアップデータやロールバックなどを実現するリソース
 * DeploymentがReplicaSetを管理して、ReplicaSetがPodを管理する3層の親子関係
 * Deploymentを使うと、新しいReplicaSet上でコンテナが起動したことやヘルスチェックが通っていることを確認しながら切り替えを行ってくれる
 * Podでデプロイした場合にはPodに障害が発生した際に自動でPodが再作成されることはない
 * ReplicaSetでデプロイした場合にはローリングアップデートなどの機能の利用ができない
 
+# Job
+* コンテナを利用して一度限りの処理は実行させるリソース
+* N並行で実行しながら、指定した回数のコンテナの実行（正常終了）を保証するリソース
+* ReplicaSetとの違いとして、「起動するPodが停止することを前提にして作られているかどうか」がある。
+* `kubectl get jobs`で正常に終了したPodの数（SUCCESSFUL）を表示する（ReplicaSetではREADYなコンテナ数を表示していたが）
+* spec.template.spec.restartPolicyにOnFaiureまたはNeverを指定する必要がある
+   * OnFailure: 再度同一のPodを利用してJobを再開する
+      * Podが起動するノードやIPアドレスが変わることはないが、PersistentVolume（永続化領域）やKubernetesNode上の領域（hostPath）をマウントしていない場合にはデータ自体は紛失する
+   * Never: Pod障害時に新規のPodが作成される
+* completions: 成功回数の指定（defaultで1）
+* parallelism: 並列度の指定（defaultで1）
+
+# CronJob
