@@ -48,3 +48,23 @@ Podを最小単位として、それらを管理する上位リソースがあ�
 * parallelism: 並列度の指定（defaultで1）
 
 # CronJob
+* concurrencyPolicy
+   * Jobの並行実行ポリシー（Allow, Forbid, Replace）
+   * Allow: 並行なJobの実行を許可するポリシースケジュールされた時間に前回のJobがまだ実行されていてもJobが作成され、実行される。
+   * Forbid: 前回のスケジュールがまだ実行中にCronJobをスケジュールしようとするとCronJobは作成されない、前回のスケジュールが完了状態になったときに初めてスケジュールがスキップされず実行される
+   * Replace: 前回のJobがまだ実行中で完了していない場合、前回のJobをキャンセルし新しくスケジュールされるJobに置き換える
+   * デフォルトはAllow
+* successfulJobsHistoryLimit
+   * 正常終了したJobの履歴保有数を指定する。
+   * デフォルトは3
+* failedJobsHistoryLimit
+   * 異常終了したJobの履歴保有数を指定する。
+   * デフォルトは1
+* schedule
+   * cronのフォーマットでスケジュールの指定をする
+* jobTemplate
+   * CrontJobがJobを作成する際のJobのテンプレートを指定する
+* startingDeadlineSeconds
+   * 何らかの理由でJobがスケジュールされるのが遅れた際に許容できる時間を指定する
+* suspend
+   * CronJobのスケジューリングの対象とするかを指定する
