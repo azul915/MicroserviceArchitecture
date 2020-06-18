@@ -1,3 +1,4 @@
+Workloadsはコンテナの実行に関するリソース
 # リソースの種類
 * Pod
 * (ReplicationController <- 廃止予定)

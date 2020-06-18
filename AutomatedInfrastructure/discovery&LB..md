@@ -1,0 +1,11 @@
+* Discovery&LBリソースは、クラスタ上のコンテナに対するエンドポイントの提供やラベルに一致するコンテナのディスカバリに利用されるリソース
+* 利用者が直接利用するものとしてはL4ロードバランシングを提供する`Service`リソースと、L7ロードバランシングを提供する`Ingress`リソース
+# リソースの種類
+* Service
+   * ClusterIP
+   * ExternalIP(ClusterIPの一種)
+   * NodePort
+   * Headless(None)
+   * ExternalName
+   * None-Selector
+* Ingress
